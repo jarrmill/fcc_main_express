@@ -1,22 +1,30 @@
-var cool = require('cool-ascii-faces');
-var express = require('express');
-var app = express();
+const express = require('express');
+const http = require('http');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const app = express();
 
-app.set('port', (process.env.PORT || 5000));
+const uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost:auth/auth';
+const router = require('./router');
+app.set('port', (process.env.PORT || 3091));
 
+app.use(cors());
+app.use(bodyParser.json({ type: '*/*'}));
 app.use(express.static(__dirname + '/public'));
 
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-app.get('/', function(request, response) {
-  response.render('pages/index')
+mongoose.connect(uristring, function(err, res){
+  if (err) {
+    console.log('ERROR connecting to: ' + uristring + '. ' + err);
+  } else {
+    console.log('Succeeded connected to: ' + uristring);
+  }
 });
-
-app.get('/cool', function(request, response) {
-  response.send(cool());
-});
+router(app);
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
