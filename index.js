@@ -5,7 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 
-const uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost:auth/auth';
+const uristring = process.env.MONGODB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost:auth/auth';
 const router = require('./router');
 app.set('port', (process.env.PORT || 3091));
 
