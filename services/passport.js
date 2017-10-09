@@ -4,6 +4,7 @@ const config = require('../config');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
+const TwitterStrategy = require('passport-twitter');
 
 const localOptions = { usernameField: 'email'};
 const localLogin = new LocalStrategy(localOptions, function(email, password, done){
@@ -21,5 +22,18 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
   });
 });
 
+const twitterKey = process.env.TWITTER_CONSUMER_KEY;
+const twitterSecret = process.env.TWITTER_CONSUMER_SECRET;
 
+const twitterLogin = new TwitterStrategy({
+  consumerKey: twitterKey,
+  consumerSecret: twitterSecret,
+  callbackURL: "https://pacific-scrubland-65914.herokuapp.com/twitter/callback"
+}, function(token, tokenSecret, profile, cb){
+    User.findOrCreate({ email: profile.id}, function(err, user)
+    {
+      return cb(err, user);
+    });
+  });
+passport.use(twitterLogin);
 passport.use(localLogin);

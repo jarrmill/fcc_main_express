@@ -4,6 +4,7 @@ const Authentication = require('./controllers/authentication');
 const Polls = require('./controllers/polls');
 
 const requireSignin = passport.authenticate('local', {session: false});
+const requireTwitterSignin = passport.authenticate('twitter');
 
 module.exports = function(app) {
   app.get('/', function (req, res){
@@ -16,4 +17,10 @@ module.exports = function(app) {
   app.get('/findpoll', Polls.findPoll);
   app.get('/listpolls', Polls.findAllPolls);
   app.get('/listuserpolls', Polls.findUserPolls);
+  app.get('/twitter', requireTwitterSignin);
+  app.get('/login/twitter/return',
+    passport.authenticate('twitter', { failureRedirect: '/login' }),
+    function(req, res) {
+      res.redirect('/');
+    });
 }
