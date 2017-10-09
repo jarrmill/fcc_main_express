@@ -18,7 +18,7 @@ module.exports = function(app) {
   app.get('/listpolls', Polls.findAllPolls);
   app.get('/listuserpolls', Polls.findUserPolls);
   app.get('/twitter', requireTwitterSignin);
-  app.get('/login/twitter/return',
+  app.get('/twitter/callback',
     passport.authenticate('twitter', { failureRedirect: '/login' }),
     function(req, res) {
       res.redirect('/');
