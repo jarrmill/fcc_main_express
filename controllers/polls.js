@@ -30,11 +30,10 @@ exports.deletePoll = function(req, res, next) {
   }
   var conditions = {_id: pollID};
 
-  Poll.fineOneAndDelete(conditions, function(err, newDoc){
+  Poll.remove(conditions, function(err){
     if (err){
       return res.status(422).send({error: 'uh oh an error'});
     }
-    console.log(NewDoc);
     return res.status(200).send('success!');
   })
 }
