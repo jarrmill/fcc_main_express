@@ -13,7 +13,7 @@ module.exports = function(app) {
   app.post('/signup', Authentication.signup);
   app.post('/signin', requireSignin, Authentication.signin);
   app.post('/createpoll', Polls.createPoll);
-  app.post('/deletepoll', Polls.deletePoll)
+  app.post('/deletepoll', Polls.deletePoll);
   app.post('/vote', Polls.vote);
   app.get('/findpoll', Polls.findPoll);
   app.get('/listpolls', Polls.findAllPolls);
