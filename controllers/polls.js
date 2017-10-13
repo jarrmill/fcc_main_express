@@ -22,6 +22,21 @@ exports.createPoll = function(req, res, next) {
     return res.send(poll);
   });
 }
+exports.delelePoll = function(req, res, next) {
+  var pollID = req.body.id;
+
+  if (!pollID){
+    return res.status(422).send({error: 'you must provide a poll id!'});
+  }
+  var conditions = {_id: pollID};
+
+  Poll.fineOneAndDelete(conditions, function(err, newDoc){
+    if (err){
+      console.log(error);
+    }
+    return res.status(200).json(newDoc);
+  })
+}
 exports.vote = function(req, res, next) {
   var pollId = req.body.id;
   var vote = req.body.vote;
