@@ -2,10 +2,12 @@ const passport = require('passport');
 const passportService = require('./services/passport');
 const Authentication = require('./controllers/authentication');
 const Polls = require('./controllers/polls');
+const Nightlife = require('./controllers/nightlife');
+const config = require('./config');
+const jwt = require('express-jwt');
 
 const requireSignin = passport.authenticate('local', {session: false});
-const requireTwitterSignin = passport.authenticate('twitter');
-
+const secret = config.shared_secret;
 module.exports = function(app) {
   app.get('/', function (req, res){
     res.status(200).send('Hello!');
@@ -18,10 +20,9 @@ module.exports = function(app) {
   app.get('/findpoll', Polls.findPoll);
   app.get('/listpolls', Polls.findAllPolls);
   app.get('/listuserpolls', Polls.findUserPolls);
-  app.get('/twitter', requireTwitterSignin);
-  app.get('/twitter/callback',
-    passport.authenticate('twitter', { failureRedirect: '/login' }),
-    function(req, res) {
-      res.redirect('/');
-    });
+  //nightlife
+  app.get('/nightlife', Nightlife.test);
+  app.get('/nightlife/test', jwt({secret: secret}), function (req, res) {
+    res.send('Secured Resource');
+  })
 }

@@ -42,13 +42,13 @@ exports.vote = function(req, res, next) {
   var vote = req.body.vote;
   var voter = req.body.email;
   var incValue = 1;
-  //return res.status(200).send(pollId);
 
   if (!pollId){
     return res.status(422).send({error: 'you must provide a poll id!'});
   }
   var conditions = { "options.x" : vote };
-  var update = { $inc: {"options.$.y" : incValue }};
+  var update = { $push: { voters: voter}};
+  //$inc: {"options.$.y" : incValue },
   //var update = { options: new_options, $push: { voters: voter}};
   var options = { multi: false, "new": true};
   //var voterPush = { $push: { voters: voter} };
@@ -58,6 +58,7 @@ exports.vote = function(req, res, next) {
     if (err) {
       console.log(err);
     };
+    console.log("Successful vote! New Doc: ")
     return res.status(200).json(newDoc);
   });
 }
