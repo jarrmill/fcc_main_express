@@ -11,7 +11,7 @@ const uristring = process.env.MONGODB_URI || process.env.MONGOHQ_URL || 'mongodb
 const router = require('./router');
 app.set('port', (process.env.PORT || 3091));
 
-var jwtCheck = jwt({
+/*var jwtCheck = jwt({
     secret: jwks.expressJwtSecret({
         cache: true,
         rateLimit: true,
@@ -23,7 +23,7 @@ var jwtCheck = jwt({
     algorithms: ['RS256']
 });
 
-app.use(jwtCheck);
+app.use(jwtCheck);*/
 app.use(cors());
 app.use(bodyParser.json({ type: '*/*'}));
 app.use(express.static(__dirname + '/public'));
