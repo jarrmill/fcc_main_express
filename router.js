@@ -22,7 +22,7 @@ module.exports = function(app) {
   app.get('/listuserpolls', Polls.findUserPolls);
   //nightlife
   app.get('/nightlife', Nightlife.test);
-  app.get('/nightlife/test', jwt({secret: secret}), function (req, res) {
-    res.send('Secured Resource');
-  })
+  app.get('/nightlife/getcity', Nightlife.getRestaurants);
+  app.post('/nightlife/incgoing', Nightlife.incGoing);
+  app.post('./nightlife/deincgoing', Nightlife.deincGoing);
 }

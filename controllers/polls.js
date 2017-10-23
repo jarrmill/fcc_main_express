@@ -47,8 +47,8 @@ exports.vote = function(req, res, next) {
     return res.status(422).send({error: 'you must provide a poll id!'});
   }
   var conditions = { "options.x" : vote };
-  var update = { $push: { voters: voter}};
-  //$inc: {"options.$.y" : incValue },
+  var update = {inc: {"options.$.y" : incValue }, $push: { voters: voter}};
+  //$
   //var update = { options: new_options, $push: { voters: voter}};
   var options = { multi: false, "new": true};
   //var voterPush = { $push: { voters: voter} };
