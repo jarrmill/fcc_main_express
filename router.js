@@ -17,12 +17,12 @@ module.exports = function(app) {
   app.post('/createpoll', Polls.createPoll);
   app.post('/deletepoll', Polls.deletePoll);
   app.post('/vote', Polls.vote);
+  app.post('/newoption', Polls.addNewOption);
   app.get('/findpoll', Polls.findPoll);
   app.get('/listpolls', Polls.findAllPolls);
   app.get('/listuserpolls', Polls.findUserPolls);
   //nightlife
   app.get('/nightlife', Nightlife.test);
   app.get('/nightlife/getcity', Nightlife.getRestaurants);
-  app.post('/nightlife/incgoing', Nightlife.incGoing);
-  app.post('./nightlife/deincgoing', Nightlife.deincGoing);
+  app.post('/nightlife/rsvp', Nightlife.rsvp);
 }

@@ -10,7 +10,8 @@ const RestaurantSchema = new Schema({
   url: String,
   image_url: String,
   location: Schema.Types.Mixed,
-  vote_count: Number
+  rsvps: Array,
+  date: Date,
 });
 
 const Restaurant = mongoose.model('Restaurant', RestaurantSchema);

@@ -47,12 +47,11 @@ exports.vote = function(req, res, next) {
     return res.status(422).send({error: 'you must provide a poll id!'});
   }
   var conditions = { "options.x" : vote };
-  var update = {inc: {"options.$.y" : incValue }, $push: { voters: voter}};
+  var update = {$inc: {"options.$.y" : incValue }, $push: { voters: voter}};
   //$
   //var update = { options: new_options, $push: { voters: voter}};
-  var options = { multi: false, "new": true};
+  var options = { "new": true};
   //var voterPush = { $push: { voters: voter} };
-
   Poll.findOneAndUpdate(conditions, update, options, function(err, newDoc){
 
     if (err) {
@@ -88,3 +87,41 @@ exports.findUserPolls = function(req, res, next) {
 
   })
 }
+exports.addNewOption = function(req, res, next) {
+  console.log("Recieved request for option change.");
+  var newOptions = req.body.options;
+  var pollId = req.body.id;
+  var newVoter = req.body.voter;
+  if (!newOptions || !pollId || !newVoter){
+    console.log("ERROR: Incoming args: ", newOptions, pollId, newVoter);
+    return res.status(422).send("Please attach new options/id in header");
+  }
+
+  var query = {_id: pollId};
+  var update = {options: newOptions, $push: { voters: newVoter }};
+  var options = {"new": true};
+  Poll.findOneAndUpdate(query, update, options, function(err, newDoc){
+    if (err) {
+      console.log(err);
+    };
+    console.log("Successful in adding option!");
+    console.log("Here is your new document");
+    console.log(newDoc);
+    return res.status(200).json(newDoc);
+  });
+}
+/*
+var conditions = { "options.x" : vote };
+var update = {$inc: {"options.$.y" : incValue }, $push: { voters: voter}};
+//$
+//var update = { options: new_options, $push: { voters: voter}};
+var options = { "new": true};
+//var voterPush = { $push: { voters: voter} };
+Poll.findOneAndUpdate(conditions, update, options, function(err, newDoc){
+
+  if (err) {
+    console.log(err);
+  };
+  console.log("Successful vote! New Doc: ")
+  return res.status(200).json(newDoc);
+});*/
