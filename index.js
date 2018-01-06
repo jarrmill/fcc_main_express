@@ -25,12 +25,11 @@ app.set('port', (process.env.PORT || 3091));
 
 app.use(jwtCheck);*/
 app.use(cors());
-app.use(bodyParser.json({ type: '*/*'}));
-app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json({ type: '*/*', limit: '2mb'}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 // views is directory for all template files
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+
 
 mongoose.connect(uristring, function(err, res){
   if (err) {
