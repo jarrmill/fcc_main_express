@@ -1,4 +1,4 @@
 module.exports = {
-  secret: 'fjkdfjsai3fj3aef13uj3',
-  shared_secret: 'https://jmillie.auth0.com/.well-known/jwks.json'
+  secret: process.env.LOCAL_SECRET,
+  shared_secret: process.env.AUTH_SHARED_SECRET
 }
